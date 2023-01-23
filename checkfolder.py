@@ -30,4 +30,20 @@ def chapFolder(seriesDir, chap):
     chapDir = f"{seriesDir}\\{chap}"
     if os.path.exists(chapDir) == False:
         os.mkdir(chapDir)
+    chk = os.listdir(chapDir)
+
+    if chk != 0:
+        print("There's already existing file in chapter folder")
+        
+        while True:
+            asn = input("Type (Y)es to continue or (N) to abort\n")
+            if asn in ['y', 'Y', 'yes']:
+                pass
+                break
+
+            elif asn in ['n', 'N', 'no']:
+                print("Aborting")
+                raise SystemExit(0)
+                break
+    
     return chapDir

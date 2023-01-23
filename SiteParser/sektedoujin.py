@@ -15,6 +15,8 @@ def extractTitle(content, multi):
             for title in parsedHTML.find_all(id='titlemove'):
                 seriesTitle = title.text
                 seriesTitle = seriesTitle.replace("\n", "")
+            for name in nameExc:
+                seriesTitle = seriesTitle.replace(name, '')
             rawCH = parsedHTML.find('div', id='chapterlist')
             chapterTitle = []
             for name in rawCH.find_all(class_='chapternum'):
