@@ -34,7 +34,7 @@ def extractTitle(content, multi):
                 seriesTitle = title.text
             title = str(parsedHTML.title)
             for name in nameExc:
-                title = title.replace(name, '')
+                seriesTitle = seriesTitle.replace(name, '')
             remNum = title.find('Chapter')
             chapterTitle = title[remNum:]
         except Exception as e:

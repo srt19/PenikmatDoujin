@@ -20,6 +20,7 @@ def main():
     content, siteNum = parseURL(argL.link)
     siteDir = checkfolder.siteFolder(siteNum)
     
+    
     if siteNum == 1:
         from SiteParser import sektedoujin
         seriesTitle, chapterTitle = sektedoujin.extractTitle(content, argL.multi)
@@ -56,8 +57,38 @@ def main():
                 rmtree(chapterDir)
 
     elif siteNum == 2:
-        print("Dojing")
-        print("Under Development")
+        from SiteParser import dojing
+        seriesTitle, chapterTitle = dojing.extractTitle(content, argL.multi)
+        seriesDir = checkfolder.seriesFolder(siteDir, seriesTitle)
+        
+        if argL.multi == True:
+            chLink = dojing.parseMulti(content)
+            print(f"{seriesTitle} {len(chapterTitle)} Chapter/s")
+            for link, chapter in zip(chLink, chapterTitle):
+                chapterDir = checkfolder.chapFolder(seriesDir, chapter)
+                content = parseOnly(link)
+                os.chdir(chapterDir)
+                dojing.parseSingle(content, chapter)
+                
+                if argL.compress == True:
+                    from compress import toCBZ
+                    from shutil import rmtree
+                    os.chdir(seriesDir)
+                    toCBZ(chapter, chapterDir)
+                    rmtree(chapterDir)
+
+        else:
+            chapterDir = checkfolder.chapFolder(seriesDir, chapterTitle)
+            os.chdir(chapterDir)
+            print(f"{seriesTitle} 1 Chapter")
+            dojing.parseSingle(content, chapterTitle)
+
+            if argL.compress == True:
+                from compress import toCBZ
+                from shutil import rmtree
+                os.chdir(seriesDir)
+                toCBZ(chapterTitle, chapterDir)
+                rmtree(chapterDir)
 
     else:
         print("Site Not Supported")
