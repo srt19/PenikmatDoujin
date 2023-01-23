@@ -32,7 +32,7 @@ def chapFolder(seriesDir, chap):
         os.mkdir(chapDir)
     chk = os.listdir(chapDir)
 
-    if chk != 0:
+    if len(chk) > 0:
         print("There's already existing file in chapter folder")
         
         while True:
