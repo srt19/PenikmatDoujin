@@ -46,6 +46,11 @@ python main.py -l "input link" -m
 | Site | URL |
 | :-: | :-: |
 | **SekteDoujin** | <https://sektedoujin.lol/>|
-| **Dojing** ✳️ | <https://dojing.net/> |
+| **Dojing** | <https://dojing.net/> |
+| **Mirrordesu** ✳️ | <https://mirrordesu.me/> |
+| **Mareceh** ✳️ | <https://mareceh.com/> |
+| **Kuma Poi** ✳️ | <https://kumapoi.me/> |
+| **Komik Dewasa** ✳️ | <https://komiklokal.art/> |
+
 
 ✳️ : In development
