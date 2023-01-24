@@ -52,5 +52,4 @@ python main.py -l "input link" -m
 | **Kuma Poi** ✳️ | <https://kumapoi.me/> |
 | **Komik Dewasa** ✳️ | <https://komiklokal.art/> |
 
-
 ✳️ : In development

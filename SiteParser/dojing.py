@@ -40,33 +40,3 @@ def extractTitle(content, multi):
             return
 
     return seriesTitle, chapterTitle
-
-def parseSingle(content, chapter):
-    parsedHTML = BeautifulSoup(content, 'html.parser')
-    parsedHTML = parsedHTML.find('div', id='readerarea')
-    parsedIMG = []
-    fileName = []
-
-    for link in parsedHTML.find_all('img'):
-        parsedIMG.append(str(link.get('src')))
-    
-    for link in parsedIMG:
-        rawName = urlparse(link)
-        name = str(os.path.basename(rawName.path))
-        fileName.append(name)
-
-    dl = process_map(dlIMG, parsedIMG, fileName, max_workers=4,
-        desc=f"Downloading {chapter}", colour='blue', unit='file')
-
-def parseMulti(content):
-    parsedHTML = BeautifulSoup(content, 'html.parser')
-    chLink = []
-    parsedHTML = parsedHTML.find(id='chapterlist')
-    for link in parsedHTML.find_all(class_='dt'):
-        link.decompose()
-    for link in parsedHTML.find_all('a'):
-        chLink.append(link.get('href'))
-
-    chLink.reverse()
-    
-    return chLink
