@@ -71,6 +71,7 @@ def parseQinMulti(content):
     for link in parsedHTML.find_all('a'):
         link = link.get('href')
         link = "https://www.qinimg.com" + link
+        titleLink.append(link)
     del titleLink[-1]
     
     return titleLink
