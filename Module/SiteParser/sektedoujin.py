@@ -1,20 +1,14 @@
-import os
 from bs4 import BeautifulSoup
-from dl import dlIMG
-from tqdm.contrib.concurrent import process_map
-from urllib.parse import urlparse
 
 nameExc = ['<title>', '</title>', ':', '<', '>', '/', '*', '\\', '|', '\"', " - Bahasa Indonesia"]
-cpuCount = int(os.cpu_count()) - 1
 
 def extractTitle(content, multi):
     parsedHTML = BeautifulSoup(content, 'html.parser')
 
     if multi == True:
         try:
-            for title in parsedHTML.find_all(id='titlemove'):
+            for title in parsedHTML.find_all(class_='entry-title'):
                 seriesTitle = title.text
-                seriesTitle = seriesTitle.replace("\n", "")
             for name in nameExc:
                 seriesTitle = seriesTitle.replace(name, '')
             rawCH = parsedHTML.find('div', id='chapterlist')

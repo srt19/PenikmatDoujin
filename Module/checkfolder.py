@@ -1,6 +1,6 @@
 import os
 
-site = ['SekteDoujin', 'Dojing']
+site = ['SekteDoujin', 'Dojing', 'MirrorDesu', 'QinImg']
 rootDir = str(os.getcwd())
 dlDir = f"{rootDir}\\Downloads"
 
@@ -13,6 +13,10 @@ def siteFolder(num):
         siteDir = f"{dlDir}\\{site[0]}"
     elif num == 2:
         siteDir = f"{dlDir}\\{site[1]}"
+    elif num == 3:
+        siteDir = f"{dlDir}\\{site[2]}"
+    elif num == 4:
+        siteDir = f"{dlDir}\\{site[3]}"
 
     if os.path.exists(siteDir) == False:
         os.mkdir(siteDir)

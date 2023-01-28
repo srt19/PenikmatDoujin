@@ -2,7 +2,7 @@ import urllib3, os
 from bs4 import BeautifulSoup
 from urllib.parse import urlparse
 
-supportedSites = ["sektedoujin.lol", "dojing.net", "mirrordesu.me", "mareceh.com", "kumapoi.me", "komiklokal.art"]
+supportedSites = ["sektedoujin.lol", "dojing.net", "mirrordesu.me", "qinimg.com", "mareceh.com", "kumapoi.me", "komiklokal.art"]
 http = urllib3.PoolManager()
 
 def supportChecker(url):
@@ -63,3 +63,29 @@ def parseMulti(content, siteNum):
     chLink.reverse()
 
     return chLink
+
+def parseQinMulti(content):
+    titleLink = []
+    parsedHTML = BeautifulSoup(content, 'html.parser')
+    parsedHTML = parsedHTML.find(class_='list_box')
+    for link in parsedHTML.find_all('a'):
+        link = link.get('href')
+        link = "https://www.qinimg.com" + link
+    del titleLink[-1]
+    
+    return titleLink
+
+
+def parseQinSingle(content):
+    parsedIMG = []
+    fileName = []
+    parsedHTML = BeautifulSoup(content, 'html.parser')
+    parsedHTML = parsedHTML.find(class_='img_box')
+    for link in parsedHTML.find_all('a'):
+        parsedIMG.append(link.get('href'))
+    for link in parsedIMG:
+        rawName = urlparse(link)
+        name = str(os.path.basename(rawName.path))
+        fileName.append(name)
+
+    return parsedIMG, fileName

@@ -1,10 +1,9 @@
 import argparse
-import urllib3
 import os
-import parseURL
-import checkfolder
-from dl import dlIMG
 from tqdm.contrib.concurrent import process_map
+from Module import parseURL
+from Module import checkfolder
+from Module.dl import dlIMG
 
 def main():
     # Write Arguments Here
@@ -29,20 +28,29 @@ def main():
     
     # WIP 
     if siteNum == 1:
-        from SiteParser import sektedoujin
+        from Module.SiteParser import sektedoujin
         seriesTitle, chapterTitle = sektedoujin.extractTitle(content, argL.multi)
 
     elif siteNum == 2:
-        from SiteParser import dojing
+        from Module.SiteParser import dojing
         seriesTitle, chapterTitle = dojing.extractTitle(content, argL.multi)
+    
+    elif siteNum == 3:
+        from Module.SiteParser import mirrordesu
+        seriesTitle, chapterTitle = mirrordesu.extractTitle(content, argL.multi)
+    
+    elif siteNum == 4:
+        from Module.SiteParser import qinimg
+        seriesTitle = qinimg.extractTitle(content, argL.multi)
 
     else:
         print("Site Not Supported")
         raise SystemExit(0)
 
-    seriesDir = checkfolder.seriesFolder(siteDir, seriesTitle)
+    if siteNum != 4:
+        seriesDir = checkfolder.seriesFolder(siteDir, seriesTitle)
 
-    if argL.multi == True:
+    if argL.multi == True and siteNum != 4:
         chLink = parseURL.parseMulti(content, siteNum)
         print(f"{seriesTitle} {len(chapterTitle)} Chapter/s")
         for link, chapter in zip(chLink, chapterTitle):
@@ -61,7 +69,7 @@ def main():
                 toCBZ(chapter, chapterDir)
                 rmtree(chapterDir)
 
-    elif argL.multi == False:
+    elif argL.multi == False and siteNum != 4:
         chapterDir = checkfolder.chapFolder(seriesDir, chapterTitle)
         os.chdir(chapterDir)
         print(f"{seriesTitle} 1 Chapter")
@@ -76,6 +84,25 @@ def main():
             os.chdir(seriesDir)
             toCBZ(chapter, chapterDir)
             rmtree(chapterDir)
+
+    elif argL.multi == True and siteNum == 4:
+        print(f"{len(seriesTitle)} Title/s")
+        titleLink = parseURL.parseQinMulti(content)
+        for name, link in zip(seriesTitle, titleLink):
+            seriesDir = checkfolder.seriesFolder(siteDir, name)
+            os.chdir(seriesDir)
+            content = parseURL.parseOnly(link)
+            parsedIMG, fileName = parseURL.parseQinSingle(content)
+            dl = process_map(dlIMG, parsedIMG, fileName, desc=f"Downloading {name}",
+                             colour='blue', unit='file', max_workers=thread)
+
+    elif argL.multi == False and siteNum == 4:
+        print(f"{seriesTitle}")
+        seriesDir = checkfolder.seriesFolder(siteDir, seriesTitle)
+        os.chdir(seriesDir)
+        parsedIMG, fileName = parseURL.parseQinSingle(content)
+        dl = process_map(dlIMG, parsedIMG, fileName, desc=f"Downloading {seriesTitle}",
+                             colour='blue', unit='file', max_workers=thread)
 
 if __name__ == "__main__":
     main()

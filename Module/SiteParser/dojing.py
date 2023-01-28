@@ -1,8 +1,4 @@
-import os
 from bs4 import BeautifulSoup
-from dl import dlIMG
-from tqdm.contrib.concurrent import process_map
-from urllib.parse import urlparse
 
 nameExc = ['<title>', '</title>', ':', '<', '>', '/', '*', '\\', '|', '\"', " - Bahasa Indonesia"]
 
