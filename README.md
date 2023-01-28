@@ -47,6 +47,7 @@ python main.py -l "input link" -m
 | :-: | :-: |
 | **SekteDoujin** | <https://sektedoujin.lol/>|
 | **Dojing** | <https://dojing.net/> |
+| **QinIMG** | <https://www.qinimg.com/> |
 | **Mirrordesu** ✳️ | <https://mirrordesu.me/> |
 | **Mareceh** ✳️ | <https://mareceh.com/> |
 | **Kuma Poi** ✳️ | <https://kumapoi.me/> |
