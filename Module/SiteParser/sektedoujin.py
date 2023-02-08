@@ -2,7 +2,7 @@ from bs4 import BeautifulSoup
 
 nameExc = ['<title>', '</title>', ':', '<', '>', '/', '*', '\\', '|', '\"', " - Bahasa Indonesia"]
 
-def extractTitle(content, multi):
+def extractTitle(content, multi, chapterNumber):
     parsedHTML = BeautifulSoup(content, 'html.parser')
 
     if multi == True:
@@ -17,6 +17,12 @@ def extractTitle(content, multi):
             for name in rawCH.find_all(class_='chapternum'):
                 chapterTitle.append(name.text)
             chapterTitle.reverse()
+            chName = list()
+            if chapterNumber != None:
+                for x in chapterNumber:
+                    chName.append(chapterTitle[x - 1])
+            else:
+                chName = chapterTitle
 
         except Exception as e:
             print(f"Error Occured: {e}")
@@ -40,4 +46,4 @@ def extractTitle(content, multi):
             print(f"Error Occured: {e}")
             return
     
-    return seriesTitle, chapterTitle
+    return seriesTitle, chName

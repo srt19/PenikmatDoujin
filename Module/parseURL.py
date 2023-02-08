@@ -1,9 +1,11 @@
-import urllib3, os
+from os.path import basename
+from urllib3 import PoolManager
 from bs4 import BeautifulSoup
 from urllib.parse import urlparse
 
 supportedSites = ["sektedoujin.lol", "dojing.net", "mirrordesu.me", "qinimg.com", "mareceh.com", "kumapoi.me", "komiklokal.art"]
-http = urllib3.PoolManager()
+user_agent = {'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64'}
+http = PoolManager(headers=user_agent)
 
 def supportChecker(url):
     siteNo :int = 1
@@ -45,12 +47,13 @@ def parseSingle(content):
 
     for link in parsedIMG:
         rawName = urlparse(link)
-        name = str(os.path.basename(rawName.path))
+        name = str(basename(rawName.path))
         fileName.append(name)
 
     return parsedIMG, fileName
 
-def parseMulti(content, siteNum):
+def parseMulti(content, siteNum, chNum):
+    chapterNum = chNumber(chNum)
     chLink = []
     parsedHTML = BeautifulSoup(content, 'html.parser')
     parsedHTML = parsedHTML.find(id='chapterlist')
@@ -61,8 +64,14 @@ def parseMulti(content, siteNum):
         chLink.append(link.get('href'))
 
     chLink.reverse()
+    chapterLink = list()
+    if chNum != None:
+        for n in chapterNum:
+            chapterLink.append(chLink[n - 1])
+    else:
+        chapterLink = chLink
 
-    return chLink
+    return chapterLink
 
 def parseQinMulti(content):
     titleLink = []
@@ -86,7 +95,30 @@ def parseQinSingle(content):
         parsedIMG.append(link.get('href'))
     for link in parsedIMG:
         rawName = urlparse(link)
-        name = str(os.path.basename(rawName.path))
+        name = str(basename(rawName.path))
         fileName.append(name)
 
     return parsedIMG, fileName
+
+def chNumber(chNum):
+    if chNum != None:
+        try:
+            if ',' in chNum:
+                chpar = chNum.split(',')
+                for x, n in zip(chpar, range(len(chpar))):
+                    chpar[n] = int(x)
+                return chpar
+
+            elif '-' in chNum:
+                chpar = chNum.split('-')
+                chapterNum = list()
+                for x in range(int(chpar[0]), int(chpar[1]) + 1):
+                    chapterNum.append(x)
+                return chapterNum
+
+            else:
+                return None
+
+        except Exception as e:
+            print(f"Error Occured: {e}")
+            raise SystemExit(0)

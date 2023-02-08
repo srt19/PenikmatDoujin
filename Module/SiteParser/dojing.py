@@ -17,6 +17,12 @@ def extractTitle(content, multi):
             for name in nameExc:
                 seriesTitle = seriesTitle.replace(name, "")
             chapterTitle.reverse()
+            chName = list()
+            if chapterNumber != None:
+                for x in chapterNumber:
+                    chName.append(chapterTitle[x - 1])
+            else:
+                chName = chapterTitle
 
         except Exception as e:
             print(f"Error Occured: {e}")
@@ -35,4 +41,4 @@ def extractTitle(content, multi):
             print(f"Error Occured: {e}")
             return
 
-    return seriesTitle, chapterTitle
+    return seriesTitle, chName

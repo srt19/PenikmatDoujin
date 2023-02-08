@@ -1,13 +1,14 @@
 # PenikmatDoujin
 
+English | [Indonesia](README.ID.MD)
 PenikmatDoujin is a software to download doujin from various site.
-Currently only support download a single chapter or all chapter from supported site.
 
 ## What This Software Do
 
 - ⬇️ Download image from supported site
+- ⬇️ Download custom range chapter
+- ⏬ Download all chapter
 - 🗜️ Compress downloaded image to cbz file
-- 🗄️ Download all chapter from supported site
 
 ## How To Use
 
@@ -20,16 +21,22 @@ pip install -r Requirements.txt
 ```
 
 - Input link from supported site with the option flags
-- For single chapter
+- Single Chapter
 
 ```python
 python main.py -l "input link"
 ```
 
-- For multi chapter
+- Multi Chapter
 
 ```python
-python main.py -l "input link" -m
+python main.py -m -l "input link"
+```
+
+- Multi Chapter with Custom Range
+
+```python
+python main.py -m -n 1,4,7 or 1-5 -l "input url"
 ```
 
 ## Option Flags
@@ -38,8 +45,9 @@ python main.py -l "input link" -m
 | :-: | :-: |
 | -h / --help | Show help message |
 | -l / --link url | Input url |
-| -m / --multi | Download all chapter |
-| -c / --compress | Compress downloaded image to cbz|
+| -m / --multi | Download all chapter. Add -n flag to select chapter number |
+| -n | Select Chapter Number to Download. |
+| -c / --compress | Compress downloaded image to cbz |
 
 ## Supported Site
 

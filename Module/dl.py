@@ -1,13 +1,15 @@
-import requests
-from urllib.parse import urlparse
-from os import path
+#import requests
+from urllib3 import PoolManager
 from multiprocessing.pool import ThreadPool
+
+http = PoolManager()
 
 def dlIMG(link, fname):
     try:
-        r = requests.get(link)
+        #r = requests.get(link)
+        r = http.request('GET', link)
         with open(fname, 'wb') as f:
-            f.write(r.content)
+            f.write(r.data)
 
     except Exception as e:
         print("Error Occured")
