@@ -2,7 +2,7 @@ from bs4 import BeautifulSoup
 
 nameExc = ['<title>', '</title>', ':', '<', '>', '/', '*', '\\', '|', '\"', " - Bahasa Indonesia"]
 
-def extractTitle(content, multi):
+def extractTitle(content, multi, chapterNumber):
     parsedHTML = BeautifulSoup(content, 'html.parser')
 
     if multi == True:
