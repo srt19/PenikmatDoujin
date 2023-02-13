@@ -2,7 +2,15 @@ import os
 
 site = ['SekteDoujin', 'Dojing', 'MirrorDesu', 'QinImg']
 rootDir = str(os.getcwd())
-dlDir = f"{rootDir}\\Downloads"
+if os.name == "nt":
+    slash = "\\"
+elif os.name == "posix":
+    slash = "/"
+else:
+    print("You got a weird OS")
+    raise SystemExit(0)
+
+dlDir = f"{rootDir}{slash}PenikmatDoujin"
 
 def checkDLFolder():
     if os.path.exists(dlDir) == False:
@@ -10,13 +18,13 @@ def checkDLFolder():
 
 def siteFolder(num):
     if num == 1:
-        siteDir = f"{dlDir}\\{site[0]}"
+        siteDir = f"{dlDir}{slash}{site[0]}"
     elif num == 2:
-        siteDir = f"{dlDir}\\{site[1]}"
+        siteDir = f"{dlDir}{slash}{site[1]}"
     elif num == 3:
-        siteDir = f"{dlDir}\\{site[2]}"
+        siteDir = f"{dlDir}{slash}{site[2]}"
     elif num == 4:
-        siteDir = f"{dlDir}\\{site[3]}"
+        siteDir = f"{dlDir}{slash}{site[3]}"
 
     if os.path.exists(siteDir) == False:
         os.mkdir(siteDir)
@@ -24,14 +32,14 @@ def siteFolder(num):
     return siteDir
 
 def seriesFolder(siteDir, seriesTitle):
-    seriesDir = f"{siteDir}\\{seriesTitle}"
+    seriesDir = f"{siteDir}{slash}{seriesTitle}"
     if os.path.exists(seriesDir) == False:
         os.mkdir(seriesDir)
     
     return seriesDir
 
 def chapFolder(seriesDir, chap):
-    chapDir = f"{seriesDir}\\{chap}"
+    chapDir = f"{seriesDir}{slash}{chap}"
     if os.path.exists(chapDir) == False:
         os.mkdir(chapDir)
     chk = os.listdir(chapDir)

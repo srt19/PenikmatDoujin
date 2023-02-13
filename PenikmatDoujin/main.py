@@ -1,9 +1,9 @@
 import os
 from argparse import ArgumentParser
 from tqdm.contrib.concurrent import process_map
-from Module import parseURL
-from Module import checkfolder
-from Module.dl import dlIMG
+from .Module import parseURL
+from .Module import checkfolder
+from .Module.dl import dlIMG
 
 def main():
     # Write Arguments Here
@@ -31,19 +31,19 @@ def main():
     
     # WIP 
     if siteNum == 1:
-        from Module.SiteParser import sektedoujin
+        from .Module.SiteParser import sektedoujin
         seriesTitle, chapterTitle = sektedoujin.extractTitle(content, argL.multi, chapterNumber)
 
     elif siteNum == 2:
-        from Module.SiteParser import dojing
+        from .Module.SiteParser import dojing
         seriesTitle, chapterTitle = dojing.extractTitle(content, argL.multi, chapterNumber)
     
     elif siteNum == 3:
-        from Module.SiteParser import mirrordesu
+        from .Module.SiteParser import mirrordesu
         seriesTitle, chapterTitle = mirrordesu.extractTitle(content, argL.multi)
     
     elif siteNum == 4:
-        from Module.SiteParser import qinimg
+        from .Module.SiteParser import qinimg
         seriesTitle = qinimg.extractTitle(content, argL.multi)
 
     else:
