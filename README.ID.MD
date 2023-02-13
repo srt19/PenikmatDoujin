@@ -11,15 +11,16 @@ PenikmatDoujin merupakan software untuk mendownload dojin.
 - ⏬ Unduh semua chapter
 - 🗜️ Kompres gambar yg sudah diunduh menjadi file cbz
 
-## Cara Menggunakan
+## Cara Install
 
-- Pertama, clone repositori ini dan unduh semua yang dibutuhkan.
+Pastikan anda sudah menginstall Python 3.7 atau yg lebih baru.
+Lalu jalankan perintah ini di commandline.
 
 ```python
-git clone https://github.com/srt19/PenikmatDoujin.git
-cd PenikmatDoujin
-pip install -r Requirements.txt
+pip install penikmatdoujin
 ```
+
+## Cara Menggunakan
 
 - Satu Chapter
 

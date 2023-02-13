@@ -11,15 +11,16 @@ PenikmatDoujin is a software to download doujin from various site.
 - ⏬ Download all chapter
 - 🗜️ Compress downloaded image to cbz file
 
-## How To Use
+## How To Install
 
-- First, clone this repository, and download all of requirements.
+Make sure you've already install Python 3.7 or newer.
+Then run this in commandline.
 
 ```python
-git clone https://github.com/srt19/PenikmatDoujin.git
-cd PenikmatDoujin
-pip install -r Requirements.txt
+pip install penikmatdoujin
 ```
+
+## How To Use
 
 - Input link from supported site with the option flags
 - Single Chapter
