@@ -1,0 +1,1 @@
+from PenikmatDoujin.main import main
