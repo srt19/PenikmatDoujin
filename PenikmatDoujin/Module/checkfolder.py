@@ -10,7 +10,7 @@ else:
     print("You got a weird OS")
     raise SystemExit(0)
 
-dlDir = f"{rootDir}{slash}Downloads"
+dlDir = f"{rootDir}{slash}PenikmatDoujin"
 
 def checkDLFolder():
     if os.path.exists(dlDir) == False:
