@@ -17,13 +17,13 @@ def checkDLFolder():
         os.mkdir(dlDir)
 
 def siteFolder(num):
-    if num == 1:
+    if num == 0:
         siteDir = f"{dlDir}{slash}{site[0]}"
     elif num == 2:
         siteDir = f"{dlDir}{slash}{site[1]}"
-    elif num == 3:
+    elif num == 2:
         siteDir = f"{dlDir}{slash}{site[2]}"
-    elif num == 4:
+    elif num == 3:
         siteDir = f"{dlDir}{slash}{site[3]}"
 
     if os.path.exists(siteDir) == False:

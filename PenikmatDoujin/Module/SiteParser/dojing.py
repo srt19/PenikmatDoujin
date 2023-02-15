@@ -36,7 +36,7 @@ def extractTitle(content, multi, chapterNumber):
             for name in nameExc:
                 seriesTitle = seriesTitle.replace(name, '')
             ch = parsedHTML.find(class_='entry-title')
-            chapterTitle = ch.text
+            chName = ch.text
         except Exception as e:
             print(f"Error Occured: {e}")
             return
