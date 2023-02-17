@@ -8,7 +8,7 @@ from .Module.chnumber import total_chapter
 
 def main():
     # Write Arguments Here
-    pdVer = "V1.1"
+    pdVer = "V1.2a"
     parMSG = f"PenikmatDoujin {pdVer} | Doujin Downloader"
     parser = ArgumentParser(description=parMSG)
     parser.add_argument("-c", "--chapter", default=None, type=str, metavar="Ch Number",
@@ -30,8 +30,9 @@ def main():
     ch_number, ch_type = total_chapter(argL.chapter)
     bar = '{l_bar}{bar}| {n_fmt}/{total_fmt} [{elapsed}<{remaining}]'
     width = shutil.get_terminal_size().columns
+    qin_multi = False
     
-    # WIP 
+    # Conditional site import
     if siteNum == 0:
         from .Module.SiteParser import sektedoujin
         seriesTitle, chapterTitle = sektedoujin.extractTitle(content, ch_type, ch_number)
@@ -41,23 +42,38 @@ def main():
         seriesTitle, chapterTitle = dojing.extractTitle(content, ch_type, ch_number)
     
     elif siteNum == 2:
-        from .Module.SiteParser import mirrordesu
-        seriesTitle, chapterTitle = mirrordesu.extractTitle(content, argL.multi)
+        from .Module.SiteParser import kumapoi
+        seriesTitle, chapterTitle = kumapoi.extractTitle(content, ch_type, ch_number)
     
     elif siteNum == 3:
         from .Module.SiteParser import qinimg
-        seriesTitle = qinimg.extractTitle(content, argL.multi)
+        if "tags" in argL.link:
+            print("multi")
+            qin_multi = True
+        elif "images" in argL.link:
+            print("single")
+            qin_multi = False 
+        seriesTitle = qinimg.extractTitle(content, qin_multi)
+    
+    elif siteNum == 4:
+        from .Module.SiteParser import komiklokal
+        seriesTitle, chapterTitle = komiklokal.extractTitle(content, ch_type, ch_number)
+
+    elif siteNum == 5:
+        from .Module.SiteParser import Manhwa18
+        seriesTitle, chapterTitle = Manhwa18.extractTitle(content, ch_type, ch_number)
 
     else:
         print("Site Not Supported".center(width))
         raise SystemExit(0)
-
-    if siteNum != 4:
+    
+    # Since site4 or QinImg has no chapter
+    if siteNum != 3:
         seriesDir = checkfolder.seriesFolder(siteDir, seriesTitle)
 
         if ch_type == "all":
             ch_number = len(chapterTitle)
-            chLink = parseCh(content, ch_type, ch_number)
+            chLink = parseCh(content, ch_type, ch_number, siteNum)
             print(f"{seriesTitle} {len(chapterTitle)} Chapters".center(width))
             for link, chapter in zip(chLink, chapterTitle):
                 chapterDir = checkfolder.chapFolder(seriesDir, chapter)
@@ -83,7 +99,7 @@ def main():
             chapterDir = checkfolder.chapFolder(seriesDir, chapterTitle)
             os.chdir(chapterDir)
             print(f"{seriesTitle} Chapter {ch_number}".center(width))
-            link = parseCh(content, ch_type, ch_number)
+            link = parseCh(content, ch_type, ch_number, siteNum)
             content = parseOnly(link)
             parsedIMG, fileName = parseIMG(content)
             dl = process_map(dlIMG, parsedIMG, fileName, desc=chapterTitle,
@@ -102,7 +118,7 @@ def main():
                 rmtree(chapterDir)
         
         elif ch_type == "comma":
-            chLink = parseCh(content, ch_type, ch_number)
+            chLink = parseCh(content, ch_type, ch_number, siteNum)
             print(f"{seriesTitle} {len(chapterTitle)} Chapters".center(width))
             for link, chapter in zip(chLink, chapterTitle):
                 chapterDir = checkfolder.chapFolder(seriesDir, chapter)
@@ -125,7 +141,7 @@ def main():
                     rmtree(chapterDir)
 
         elif ch_type == "dash":
-            chLink = parseCh(content, ch_type, ch_number)
+            chLink = parseCh(content, ch_type, ch_number, siteNum)
             chn = []
             for i in range(ch_number[0], ch_number[1]+1):
                 chn.append(i)
@@ -149,6 +165,31 @@ def main():
                     os.chdir(seriesDir)
                     toCBZ(chapter, chapterDir)
                     rmtree(chapterDir)
+    
+    elif siteNum == 3:
+        if qin_multi is True:
+            print(f"Downloading {len(seriesTitle)} Title/s".center(width))
+            titleLink = parseQinMulti(content)
+            for name, link in zip(seriesTitle, titleLink):
+                seriesDir = checkfolder.seriesFolder(siteDir, name)
+                os.chdir(seriesDir)
+                content = parseOnly(link)
+                parsedIMG, fileName = parseQinSingle(content)
+                dl = process_map(dlIMG, parsedIMG, fileName, desc=name,
+                                colour='blue', bar_format=bar, max_workers=thread)
+                if argL.webp == True:
+                    from .Module.webp import WEBP
+                    WEBP(name, seriesDir)
+        else:
+            print(f"Downloading {seriesTitle}".center(width))
+            seriesDir = checkfolder.seriesFolder(siteDir, seriesTitle)
+            os.chdir(seriesDir)
+            parsedIMG, fileName = parseQinSingle(content)
+            dl = process_map(dlIMG, parsedIMG, fileName, desc=seriesTitle,
+                                colour='blue', bar_format=bar, max_workers=thread)
+            if argL.webp == True:
+                    from .Module.webp import WEBP
+                    WEBP(seriesTitle, seriesDir)
 
 if __name__ == "__main__":
     main()

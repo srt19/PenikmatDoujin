@@ -1,13 +1,13 @@
 import os
 
-site = ['SekteDoujin', 'Dojing', 'MirrorDesu', 'QinImg']
+site = ['SekteDoujin', 'Dojing', 'KumaPoi', 'QinImg', 'KomikLokal', "Manwha18"]
 rootDir = str(os.getcwd())
 if os.name == "nt":
     slash = "\\"
 elif os.name == "posix":
     slash = "/"
 else:
-    print("You got a weird OS")
+    print("You got a really weird OS")
     raise SystemExit(0)
 
 dlDir = f"{rootDir}{slash}PenikmatDoujin"
@@ -17,14 +17,7 @@ def checkDLFolder():
         os.mkdir(dlDir)
 
 def siteFolder(num):
-    if num == 0:
-        siteDir = f"{dlDir}{slash}{site[0]}"
-    elif num == 1:
-        siteDir = f"{dlDir}{slash}{site[1]}"
-    elif num == 2:
-        siteDir = f"{dlDir}{slash}{site[2]}"
-    elif num == 3:
-        siteDir = f"{dlDir}{slash}{site[3]}"
+    siteDir = f"{dlDir}{slash}{site[num]}"
 
     if os.path.exists(siteDir) == False:
         os.mkdir(siteDir)
@@ -49,13 +42,12 @@ def chapFolder(seriesDir, chap):
         
         while True:
             asn = input("Type (Y)es to continue or (N) to abort\n")
-            if asn in ['y', 'Y', 'yes']:
+            if asn.lower() in ['y', 'yes']:
                 pass
                 break
 
-            elif asn in ['n', 'N', 'no']:
+            elif asn.lower() in ['n', 'no']:
                 print("Aborting")
                 raise SystemExit(0)
-                break
     
     return chapDir

@@ -10,6 +10,7 @@ PenikmatDoujin is a software to download doujin from various site.
 - ⬇️ Download custom range chapter
 - ⏬ Download all chapter
 - 🗜️ Compress downloaded image to cbz file
+- 🖼️ Convert image to webp
 
 ## How To Install
 
@@ -22,23 +23,24 @@ pip install penikmatdoujin
 
 ## How To Use
 
-- Input link from supported site with the option flags
+- Downloaded images located in PenikmatDoujin/"Site Name"/"Doujin Title"
+
 - Single Chapter
 
 ```python
-python main.py -c "Chapter Number" -l "input link"
+penikmatdoujin or pd -c "Chapter Number" -l "input link"
 ```
 
 - All Chapter
 
 ```python
-python main.py -l "input link"
+penikmatdoujin or pd -l "input link"
 ```
 
 - Multi Chapter with Custom Range
 
 ```python
-python main.py -c 1,4,7 or 1-5 -l "input url"
+penikmatdoujin or pd -c 1,4,7 or 1-5 -l "input url"
 ```
 
 ## Option Flags
@@ -58,9 +60,8 @@ python main.py -c 1,4,7 or 1-5 -l "input url"
 | **SekteDoujin** | <https://sektedoujin.lol/>|
 | **Dojing** | <https://dojing.net/> |
 | **QinIMG** | <https://www.qinimg.com/> |
-| **Mirrordesu** ✳️ | <https://mirrordesu.me/> |
-| **Mareceh** ✳️ | <https://mareceh.com/> |
-| **Kuma Poi** ✳️ | <https://kumapoi.me/> |
-| **Komik Dewasa** ✳️ | <https://komiklokal.art/> |
+| **Kuma Poi** | <https://kumapoi.me/> |
+| **Komik Dewasa** | <https://komiklokal.pics/> |
+| **Manhwa18** | <https://manhwa18.cc/> |
 
 ✳️ : In development

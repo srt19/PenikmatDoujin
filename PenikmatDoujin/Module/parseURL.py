@@ -4,7 +4,7 @@ from bs4 import BeautifulSoup
 from urllib.parse import urlparse
 import shutil
 
-supportedSites = ["sektedoujin.lol", "dojing.net", "mirrordesu.me", "qinimg.com", "mareceh.com", "kumapoi.me", "komiklokal.art"]
+supportedSites = ["sektedoujin.lol", "dojing.net", "kumapoi.me", "qinimg.com", "komiklokal", "manhwa18.cc"]
 http = PoolManager()
 
 def supportChecker(url):
@@ -40,42 +40,6 @@ def parseOnly(url):
 
     return req.data
 
-def parseSingle(content):
-    parsedHTML = BeautifulSoup(content, 'html.parser')
-    parsedHTML = parsedHTML.find('div', id='readerarea')
-    parsedIMG = []
-    fileName = []
-    for link in parsedHTML.find_all('img'):
-        parsedIMG.append(str(link.get('src')))
-
-    for link in parsedIMG:
-        rawName = urlparse(link)
-        name = str(basename(rawName.path))
-        fileName.append(name)
-
-    return parsedIMG, fileName
-
-def parseMulti(content, chNum):
-    chapterNum = chNumber(chNum)
-    chLink = []
-    parsedHTML = BeautifulSoup(content, 'html.parser')
-    parsedHTML = parsedHTML.find(id='chapterlist')
-
-    for link in parsedHTML.find_all(class_='dt'):
-        link.decompose()
-    for link in parsedHTML.find_all('a'):
-        chLink.append(link.get('href'))
-
-    chLink.reverse()
-    chapterLink = list()
-    if chNum != None:
-        for n in chapterNum:
-            chapterLink.append(chLink[n - 1])
-    else:
-        chapterLink = chLink
-
-    return chapterLink
-
 def parseQinMulti(content):
     titleLink = []
     parsedHTML = BeautifulSoup(content, 'html.parser')
@@ -103,17 +67,23 @@ def parseQinSingle(content):
 
     return parsedIMG, fileName
 
-def parseCh(content, ch_type, ch_number):
+def parseCh(content, ch_type, ch_number, siteNum):
     parsedHTML = BeautifulSoup(content, 'html.parser')
     parsedHTML = parsedHTML.find("div", id="chapterlist")
     rawLink = []
     chLink = []
 
-    for link in parsedHTML.find_all(class_="dt"):
-        link.decompose()
-    for link in parsedHTML.find_all('a'):
-        rawLink.append(link.get('href'))
-    rawLink.reverse()
+    if siteNum != 5:
+        for link in parsedHTML.find_all(class_="dt"):
+            link.decompose()
+        for link in parsedHTML.find_all('a'):
+            rawLink.append(link.get('href'))
+        rawLink.reverse()
+    else:
+        for link in parsedHTML.find_all('a'):
+            rw = link.get('href')
+        rawLink.append("https://manhwa18.cc/" + rw)
+        rawLink.reverse()
 
     if ch_type == "single":
         chLink = rawLink[ch_number - 1]
@@ -144,8 +114,28 @@ def parseIMG(content):
         name = str(basename(rawName.path))
         fileName.append(name)
     
-    if parsedIMG is None:
-        print("No images found. This site might be using lazy-load image")
-        raise SystemExit(0)
+    if len(parsedIMG) == 0:
+        parsedIMG, fileName = parseLazy(content)
 
+    return parsedIMG, fileName
+
+def parseLazy(content):
+    parsedHTML = BeautifulSoup(content, 'html.parser')
+    parsedHTML = parsedHTML.find_all('script')
+    for i in parsedHTML:
+        if "ts_reader" in str(i):
+            raw = str(i)
+    a = raw.find("images")
+    b = raw.find("lazyload")
+    clean = raw[a+9:b-5]
+    clean = clean.replace('"', '')
+    clean = clean.replace("\/", '/')
+    parsedIMG = clean.split(',')
+    fileName = []
+    for i,n in zip(range(1, len(parsedIMG)+1), parsedIMG):
+        if "jpg" in n:
+            fileName.append(str(i).zfill(2)+".jpg")
+        elif "png" in n:
+            fileName.append(str(i).zfill(2)+".png")
+    
     return parsedIMG, fileName
