@@ -25,19 +25,19 @@ pip install penikmatdoujin
 - Satu Chapter
 
 ```python
-python main.py -l "input link"
+python main.py -c "Nomor Chapter" "input link"
 ```
 
 - Semua Chapter
 
 ```python
-python main.py -m -l "input link"
+python main.py -l "input link"
 ```
 
 - Chapter Pilihan
 
 ```python
-python main.py -m -n 1,4,7 or 1-5 -l "input url"
+python main.py -c 1,4,7 atau 1-5 -l "input url"
 ```
 
 ## Option Flags
@@ -46,9 +46,9 @@ python main.py -m -n 1,4,7 or 1-5 -l "input url"
 | :-: | :-: |
 | -h / --help | Tampilkan bantuan |
 | -l / --link url | Input url |
-| -m / --multi | Unduh semua chapter. Tambahkan -n untuk memilih no chapter |
-| -n | No chapter yg akan diunduh |
-| -c / --compress | Kompres menjadi file cbz |
+| -c | No chapter yg akan diunduh |
+| -cbz | Kompres menjadi file cbz |
+| -webp | Ubah format gambar ke webp|
 
 ## Situs Yang Didukung
 

@@ -26,19 +26,19 @@ pip install penikmatdoujin
 - Single Chapter
 
 ```python
-python main.py -l "input link"
+python main.py -c "Chapter Number" -l "input link"
 ```
 
-- Multi Chapter
+- All Chapter
 
 ```python
-python main.py -m -l "input link"
+python main.py -l "input link"
 ```
 
 - Multi Chapter with Custom Range
 
 ```python
-python main.py -m -n 1,4,7 or 1-5 -l "input url"
+python main.py -c 1,4,7 or 1-5 -l "input url"
 ```
 
 ## Option Flags
@@ -47,9 +47,9 @@ python main.py -m -n 1,4,7 or 1-5 -l "input url"
 | :-: | :-: |
 | -h / --help | Show help message |
 | -l / --link url | Input url |
-| -m / --multi | Download all chapter. Add -n flag to select chapter number |
-| -n | Select Chapter Number to Download. |
-| -c / --compress | Compress downloaded image to cbz |
+| -c | Select Chapter Number to Download. |
+| -cbz | Compress downloaded image to cbz |
+| -webp | Convert downloaded image to webp |
 
 ## Supported Site
 
