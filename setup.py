@@ -7,7 +7,7 @@ here = os.path.abspath(os.path.dirname(__file__))
 with codecs.open(os.path.join(here, "README.MD"), encoding="utf-8") as fh:
     long_description = "\n" + fh.read()
 
-Version = '1.1a'
+Version = '1.1'
 Desc = "Doujin Downlaoder"
 Long_Desc = "A doujin downloader"
 
@@ -28,7 +28,6 @@ setup(
         "Operating System :: Microsoft :: Windows",
     ],
     entry_points={
-        'console_scripts':['penikmatdoujin=PenikmatDoujin.main:main'],
-        'console_scripts':['pd=PenikmatDoujin.main:main'],
+        'console_scripts':['penikmatdoujin=PenikmatDoujin.main:main','pd=PenikmatDoujin.main:main'],
     }
 )

@@ -38,10 +38,3 @@ def parse(content):
         imgLink.append(link.get("data-src"))
 
     return imgLink
-
-url = "https://dojing.net/mahasiswi-ngewe-di-kosan/"
-content = lazy_load(url)
-imgLink = parse(content)
-
-for i in imgLink:
-    print(i)

@@ -143,5 +143,9 @@ def parseIMG(content):
         rawName = urlparse(link)
         name = str(basename(rawName.path))
         fileName.append(name)
+    
+    if parsedIMG is None:
+        print("No images found. This site might be using lazy-load image")
+        raise SystemExit(0)
 
     return parsedIMG, fileName

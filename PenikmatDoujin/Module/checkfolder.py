@@ -19,7 +19,7 @@ def checkDLFolder():
 def siteFolder(num):
     if num == 0:
         siteDir = f"{dlDir}{slash}{site[0]}"
-    elif num == 2:
+    elif num == 1:
         siteDir = f"{dlDir}{slash}{site[1]}"
     elif num == 2:
         siteDir = f"{dlDir}{slash}{site[2]}"
