@@ -4,7 +4,7 @@ from bs4 import BeautifulSoup
 from urllib.parse import urlparse
 import shutil
 
-supportedSites = ["sektedoujin.lol", "dojing.net", "kumapoi.me", "qinimg.com", "komiklokal", "manhwa18.cc"]
+supportedSites = ["sektedoujin.lol", "dojing.net", "kumapoi.me", "qinimg.com", "komiklokal", "worldmanhwas.info"]
 http = PoolManager()
 
 def supportChecker(url):
@@ -14,7 +14,6 @@ def supportChecker(url):
             return siteNo
         else:
             siteNo += 1
-
 
 def parseLink(url):
     siteNum = supportChecker(url)
@@ -69,20 +68,21 @@ def parseQinSingle(content):
 
 def parseCh(content, ch_type, ch_number, siteNum):
     parsedHTML = BeautifulSoup(content, 'html.parser')
-    parsedHTML = parsedHTML.find("div", id="chapterlist")
     rawLink = []
     chLink = []
 
     if siteNum != 5:
+        parsedHTML = parsedHTML.find("div", id="chapterlist")
         for link in parsedHTML.find_all(class_="dt"):
             link.decompose()
         for link in parsedHTML.find_all('a'):
             rawLink.append(link.get('href'))
         rawLink.reverse()
+    
     else:
-        for link in parsedHTML.find_all('a'):
-            rw = link.get('href')
-        rawLink.append("https://manhwa18.cc/" + rw)
+        ch = parsedHTML.find('ul', class_='main')
+        for i in ch.find_all('a'):
+            rawLink.append(i.get('href'))
         rawLink.reverse()
 
     if ch_type == "single":
@@ -101,13 +101,22 @@ def parseCh(content, ch_type, ch_number, siteNum):
 
     return chLink
 
-def parseIMG(content):
-    parsedHTML = BeautifulSoup(content, 'html.parser')
-    parsedHTML = parsedHTML.find('div', id='readerarea')
+def parseIMG(content, siteNum):
     parsedIMG = []
     fileName = []
-    for link in parsedHTML.find_all('img'):
-        parsedIMG.append(str(link.get('src')))
+    parsedHTML = BeautifulSoup(content, 'html.parser')
+
+    if siteNum == 5:
+        parsedHTML = parsedHTML.find('div', class_='reading-content')
+        for i in parsedHTML.find_all('img'):
+            link = i.get('src')
+            link = link.strip()
+            parsedIMG.append(link)
+
+    else:
+        parsedHTML = parsedHTML.find('div', id='readerarea')
+        for link in parsedHTML.find_all('img'):
+            parsedIMG.append(str(link.get('src')))
 
     for link in parsedIMG:
         rawName = urlparse(link)

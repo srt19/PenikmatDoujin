@@ -1,6 +1,6 @@
 import os
 
-site = ['SekteDoujin', 'Dojing', 'KumaPoi', 'QinImg', 'KomikLokal', "Manwha18"]
+site = ['SekteDoujin', 'Dojing', 'KumaPoi', 'QinImg', 'KomikLokal', 'WorldManhwas']
 rootDir = str(os.getcwd())
 if os.name == "nt":
     slash = "\\"

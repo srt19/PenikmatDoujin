@@ -60,8 +60,8 @@ def main():
         seriesTitle, chapterTitle = komiklokal.extractTitle(content, ch_type, ch_number)
 
     elif siteNum == 5:
-        from .Module.SiteParser import Manhwa18
-        seriesTitle, chapterTitle = Manhwa18.extractTitle(content, ch_type, ch_number)
+        from .Module.SiteParser import worldmanhwas
+        seriesTitle, chapterTitle = worldmanhwas.extractTitle(content, ch_type, ch_number)
 
     else:
         print("Site Not Supported".center(width))
@@ -79,7 +79,7 @@ def main():
                 chapterDir = checkfolder.chapFolder(seriesDir, chapter)
                 os.chdir(chapterDir)
                 content = parseOnly(link)
-                parsedIMG, fileName = parseIMG(content)
+                parsedIMG, fileName = parseIMG(content, siteNum)
                 dl = process_map(dlIMG, parsedIMG, fileName, desc=chapter,
                                     colour='blue', bar_format=bar, max_workers=thread)
 
@@ -101,7 +101,7 @@ def main():
             print(f"{seriesTitle} Chapter {ch_number}".center(width))
             link = parseCh(content, ch_type, ch_number, siteNum)
             content = parseOnly(link)
-            parsedIMG, fileName = parseIMG(content)
+            parsedIMG, fileName = parseIMG(content, siteNum)
             dl = process_map(dlIMG, parsedIMG, fileName, desc=chapterTitle,
                                 colour='blue', bar_format=bar, max_workers=thread)
             
@@ -124,7 +124,7 @@ def main():
                 chapterDir = checkfolder.chapFolder(seriesDir, chapter)
                 os.chdir(chapterDir)
                 content = parseOnly(link)
-                parsedIMG, fileName = parseIMG(content)
+                parsedIMG, fileName = parseIMG(content, siteNum)
                 dl = process_map(dlIMG, parsedIMG, fileName, desc=chapter,
                                     colour='blue', bar_format=bar, max_workers=thread)
 
@@ -150,7 +150,7 @@ def main():
                 chapterDir = checkfolder.chapFolder(seriesDir, chapter)
                 os.chdir(chapterDir)
                 content = parseOnly(link)
-                parsedIMG, fileName = parseIMG(content)
+                parsedIMG, fileName = parseIMG(content, siteNum)
                 dl = process_map(dlIMG, parsedIMG, fileName, desc=chapter,
                                     colour='blue', bar_format=bar, max_workers=thread)
 
