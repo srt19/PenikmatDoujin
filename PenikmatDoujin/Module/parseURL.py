@@ -4,7 +4,7 @@ from bs4 import BeautifulSoup
 from urllib.parse import urlparse
 import shutil
 
-supportedSites = ["sektedoujin.lol", "dojing.net", "mirrordesu.me", "qinimg.com", "mareceh.com", "kumapoi.me", "komiklokal.art"]
+supportedSites = ["sektedoujin.lol", "dojing.net", "kumapoi.me", "qinimg.com", "komiklokal", "worldmanhwas.info", "fastmanhwa.net"]
 http = PoolManager()
 
 def supportChecker(url):
@@ -14,7 +14,6 @@ def supportChecker(url):
             return siteNo
         else:
             siteNo += 1
-
 
 def parseLink(url):
     siteNum = supportChecker(url)
@@ -39,42 +38,6 @@ def parseOnly(url):
         print("Http Error")
 
     return req.data
-
-def parseSingle(content):
-    parsedHTML = BeautifulSoup(content, 'html.parser')
-    parsedHTML = parsedHTML.find('div', id='readerarea')
-    parsedIMG = []
-    fileName = []
-    for link in parsedHTML.find_all('img'):
-        parsedIMG.append(str(link.get('src')))
-
-    for link in parsedIMG:
-        rawName = urlparse(link)
-        name = str(basename(rawName.path))
-        fileName.append(name)
-
-    return parsedIMG, fileName
-
-def parseMulti(content, chNum):
-    chapterNum = chNumber(chNum)
-    chLink = []
-    parsedHTML = BeautifulSoup(content, 'html.parser')
-    parsedHTML = parsedHTML.find(id='chapterlist')
-
-    for link in parsedHTML.find_all(class_='dt'):
-        link.decompose()
-    for link in parsedHTML.find_all('a'):
-        chLink.append(link.get('href'))
-
-    chLink.reverse()
-    chapterLink = list()
-    if chNum != None:
-        for n in chapterNum:
-            chapterLink.append(chLink[n - 1])
-    else:
-        chapterLink = chLink
-
-    return chapterLink
 
 def parseQinMulti(content):
     titleLink = []
@@ -103,17 +66,31 @@ def parseQinSingle(content):
 
     return parsedIMG, fileName
 
-def parseCh(content, ch_type, ch_number):
+def parseCh(content, ch_type, ch_number, siteNum):
     parsedHTML = BeautifulSoup(content, 'html.parser')
-    parsedHTML = parsedHTML.find("div", id="chapterlist")
     rawLink = []
     chLink = []
 
-    for link in parsedHTML.find_all(class_="dt"):
-        link.decompose()
-    for link in parsedHTML.find_all('a'):
-        rawLink.append(link.get('href'))
-    rawLink.reverse()
+    if siteNum == 5:
+        ch = parsedHTML.find('ul', class_='main')
+        for i in ch.find_all('a'):
+            rawLink.append(i.get('href'))
+        rawLink.reverse()
+    
+    elif siteNum == 6:
+        ch = parsedHTML.find('div', class_='c-page')
+        for i in ch.find_all('a'):
+            rawLink.append(i.get('href'))
+        del rawLink[0]
+        rawLink.reverse()
+    
+    else:
+        parsedHTML = parsedHTML.find("div", id="chapterlist")
+        for link in parsedHTML.find_all(class_="dt"):
+            link.decompose()
+        for link in parsedHTML.find_all('a'):
+            rawLink.append(link.get('href'))
+        rawLink.reverse()
 
     if ch_type == "single":
         chLink = rawLink[ch_number - 1]
@@ -131,21 +108,59 @@ def parseCh(content, ch_type, ch_number):
 
     return chLink
 
-def parseIMG(content):
-    parsedHTML = BeautifulSoup(content, 'html.parser')
-    parsedHTML = parsedHTML.find('div', id='readerarea')
+def parseIMG(content, siteNum):
     parsedIMG = []
     fileName = []
-    for link in parsedHTML.find_all('img'):
-        parsedIMG.append(str(link.get('src')))
+    parsedHTML = BeautifulSoup(content, 'html.parser')
+
+    if siteNum == 5:
+        parsedHTML = parsedHTML.find('div', class_='reading-content')
+        for i in parsedHTML.find_all('img'):
+            link = i.get('src')
+            link = link.strip()
+            parsedIMG.append(link)
+
+    if siteNum == 6:
+        parsedHTML = parsedHTML.find('div', class_='reading-content')
+        for i in parsedHTML.find_all('img'):
+            parsedIMG.append(str(i.get('src')).strip())
+        
+        for i, n in zip(parsedIMG, range(len(parsedIMG))):
+            if "data:image/svg" in i:
+                del parsedIMG[n]
+
+    else:
+        parsedHTML = parsedHTML.find('div', id='readerarea')
+        for link in parsedHTML.find_all('img'):
+            parsedIMG.append(str(link.get('src')))
 
     for link in parsedIMG:
         rawName = urlparse(link)
         name = str(basename(rawName.path))
         fileName.append(name)
     
-    if parsedIMG is None:
-        print("No images found. This site might be using lazy-load image")
-        raise SystemExit(0)
+    if len(parsedIMG) == 0:
+        parsedIMG, fileName = parseLazy(content)
 
+    return parsedIMG, fileName
+
+def parseLazy(content):
+    parsedHTML = BeautifulSoup(content, 'html.parser')
+    parsedHTML = parsedHTML.find_all('script')
+    for i in parsedHTML:
+        if "ts_reader" in str(i):
+            raw = str(i)
+    a = raw.find("images")
+    b = raw.find("lazyload")
+    clean = raw[a+9:b-5]
+    clean = clean.replace('"', '')
+    clean = clean.replace("\/", '/')
+    parsedIMG = clean.split(',')
+    fileName = []
+    for i,n in zip(range(1, len(parsedIMG)+1), parsedIMG):
+        if "jpg" in n:
+            fileName.append(str(i).zfill(2)+".jpg")
+        elif "png" in n:
+            fileName.append(str(i).zfill(2)+".png")
+    
     return parsedIMG, fileName

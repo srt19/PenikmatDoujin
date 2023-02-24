@@ -10,6 +10,7 @@ PenikmatDoujin merupakan software untuk mendownload dojin.
 - ⬇️ Unduh chapter tertentu
 - ⏬ Unduh semua chapter
 - 🗜️ Kompres gambar yg sudah diunduh menjadi file cbz
+- 🖼️ Konversi format gambar menjadi webp
 
 ## Cara Install
 
@@ -22,22 +23,30 @@ pip install penikmatdoujin
 
 ## Cara Menggunakan
 
+- Gambar yg terunduh tersimpan di folder PenikmatDoujin/"Nama Situs"/"Judul Doujin"
+
+- Contoh:
+
+```python
+penikmatdoujin -c 1 -l https://sektedoujin.lol/manga/the-hypnosis-app-was-fake/
+```
+
 - Satu Chapter
 
 ```python
-python main.py -c "Nomor Chapter" "input link"
+penikmatdoujin atau pd -c "Nomor Chapter" "input link"
 ```
 
 - Semua Chapter
 
 ```python
-python main.py -l "input link"
+penikmatdoujin atau pd -l "input link"
 ```
 
 - Chapter Pilihan
 
 ```python
-python main.py -c 1,4,7 atau 1-5 -l "input url"
+penikmatdoujin atau pd -c 1,4,7 atau 1-5 -l "input url"
 ```
 
 ## Option Flags
@@ -57,9 +66,9 @@ python main.py -c 1,4,7 atau 1-5 -l "input url"
 | **SekteDoujin** | <https://sektedoujin.lol/>|
 | **Dojing** | <https://dojing.net/> |
 | **QinIMG** | <https://www.qinimg.com/> |
-| **Mirrordesu** ✳️ | <https://mirrordesu.me/> |
-| **Mareceh** ✳️ | <https://mareceh.com/> |
-| **Kuma Poi** ✳️ | <https://kumapoi.me/> |
-| **Komik Dewasa** ✳️ | <https://komiklokal.art/> |
+| **Kuma Poi** | <https://kumapoi.me/> |
+| **Komik Dewasa** | <https://komiklokal.art/> |
+| **FastManhwa** | <https://fastmanhwa.net/> |
+| **WorldManhwas** | <https://worldmanhwas.info/> |
 
 ✳️ : Dalam Pengembangan
