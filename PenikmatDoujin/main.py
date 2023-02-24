@@ -62,6 +62,10 @@ def main():
     elif siteNum == 5:
         from .Module.SiteParser import worldmanhwas
         seriesTitle, chapterTitle = worldmanhwas.extractTitle(content, ch_type, ch_number)
+    
+    elif siteNum == 6:
+        from .Module.SiteParser import fastmanhwa
+        seriesTitle, chapterTitle = fastmanhwa.extractTitle(content, ch_type, ch_number)
 
     else:
         print("Site Not Supported".center(width))

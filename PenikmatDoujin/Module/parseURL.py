@@ -4,7 +4,7 @@ from bs4 import BeautifulSoup
 from urllib.parse import urlparse
 import shutil
 
-supportedSites = ["sektedoujin.lol", "dojing.net", "kumapoi.me", "qinimg.com", "komiklokal", "worldmanhwas.info"]
+supportedSites = ["sektedoujin.lol", "dojing.net", "kumapoi.me", "qinimg.com", "komiklokal", "worldmanhwas.info", "fastmanhwa.net"]
 http = PoolManager()
 
 def supportChecker(url):
@@ -71,18 +71,25 @@ def parseCh(content, ch_type, ch_number, siteNum):
     rawLink = []
     chLink = []
 
-    if siteNum != 5:
+    if siteNum == 5:
+        ch = parsedHTML.find('ul', class_='main')
+        for i in ch.find_all('a'):
+            rawLink.append(i.get('href'))
+        rawLink.reverse()
+    
+    elif siteNum == 6:
+        ch = parsedHTML.find('div', class_='c-page')
+        for i in ch.find_all('a'):
+            rawLink.append(i.get('href'))
+        del rawLink[0]
+        rawLink.reverse()
+    
+    else:
         parsedHTML = parsedHTML.find("div", id="chapterlist")
         for link in parsedHTML.find_all(class_="dt"):
             link.decompose()
         for link in parsedHTML.find_all('a'):
             rawLink.append(link.get('href'))
-        rawLink.reverse()
-    
-    else:
-        ch = parsedHTML.find('ul', class_='main')
-        for i in ch.find_all('a'):
-            rawLink.append(i.get('href'))
         rawLink.reverse()
 
     if ch_type == "single":
@@ -112,6 +119,15 @@ def parseIMG(content, siteNum):
             link = i.get('src')
             link = link.strip()
             parsedIMG.append(link)
+
+    if siteNum == 6:
+        parsedHTML = parsedHTML.find('div', class_='reading-content')
+        for i in parsedHTML.find_all('img'):
+            parsedIMG.append(str(i.get('src')).strip())
+        
+        for i, n in zip(parsedIMG, range(len(parsedIMG))):
+            if "data:image/svg" in i:
+                del parsedIMG[n]
 
     else:
         parsedHTML = parsedHTML.find('div', id='readerarea')
