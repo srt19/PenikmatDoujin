@@ -25,6 +25,12 @@ pip install penikmatdoujin
 
 - Gambar yg terunduh tersimpan di folder PenikmatDoujin/"Nama Situs"/"Judul Doujin"
 
+- Contoh:
+
+```python
+penikmatdoujin -c 1 -l https://sektedoujin.lol/manga/the-hypnosis-app-was-fake/
+```
+
 - Satu Chapter
 
 ```python
@@ -62,6 +68,7 @@ penikmatdoujin atau pd -c 1,4,7 atau 1-5 -l "input url"
 | **QinIMG** | <https://www.qinimg.com/> |
 | **Kuma Poi** | <https://kumapoi.me/> |
 | **Komik Dewasa** | <https://komiklokal.art/> |
-| **Manhwa18** | <https://manhwa18.cc/> |
+| **FastManhwa** | <https://fastmanhwa.net/> |
+| **WorldManhwas** | <https://worldmanhwas.info/> |
 
 ✳️ : Dalam Pengembangan

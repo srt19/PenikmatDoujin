@@ -25,6 +25,12 @@ pip install penikmatdoujin
 
 - Downloaded images located in PenikmatDoujin/"Site Name"/"Doujin Title"
 
+- Example:
+
+```python
+penikmatdoujin -c 1 -l https://sektedoujin.lol/manga/the-hypnosis-app-was-fake/
+```
+
 - Single Chapter
 
 ```python
@@ -62,6 +68,7 @@ penikmatdoujin or pd -c 1,4,7 or 1-5 -l "input url"
 | **QinIMG** | <https://www.qinimg.com/> |
 | **Kuma Poi** | <https://kumapoi.me/> |
 | **Komik Dewasa** | <https://komiklokal.pics/> |
-| **Manhwa18** | <https://manhwa18.cc/> |
+| **FastManhwa** | <https://fastmanhwa.net/> |
+| **WorldManhwas** | <https://worldmanhwas.info/> |
 
 ✳️ : In development

@@ -8,7 +8,7 @@ from .Module.chnumber import total_chapter
 
 def main():
     # Write Arguments Here
-    pdVer = "V1.2a"
+    pdVer = "V1.2"
     parMSG = f"PenikmatDoujin {pdVer} | Doujin Downloader"
     parser = ArgumentParser(description=parMSG)
     parser.add_argument("-c", "--chapter", default=None, type=str, metavar="Ch Number",

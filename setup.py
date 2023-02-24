@@ -7,7 +7,7 @@ here = os.path.abspath(os.path.dirname(__file__))
 with codecs.open(os.path.join(here, "README.MD"), encoding="utf-8") as fh:
     long_description = "\n" + fh.read()
 
-Version = '1.2a'
+Version = '1.2'
 Desc = "Doujin Downlaoder"
 Long_Desc = "A doujin downloader"
 
